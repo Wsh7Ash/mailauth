@@ -11,10 +11,14 @@ artifact.
 - `examples/skills/http-desync-smuggling-assessment/SKILL.md`: a second skill in an
   unrelated domain, written to the same A..P contract, to show that the checker
   enforces a contract rather than one document's shape.
-- A parametrised integration test covering both shipped skills, and a test asserting
-  the contract is not bespoke to one domain.
+- `examples/skills/dns-resolver-security-assessment/SKILL.md`: a third skill, DNS
+  resolver security, in a third category with no overlap in CWE, tooling or
+  references with either earlier document.
+- A parametrised integration test covering all three shipped skills, and a test
+  asserting the contract is not bespoke to any one domain.
 - Captured output for the second skill in `results/check-second-skill.txt` and
-  `results/stats-second-skill.txt`.
+  `results/stats-second-skill.txt`, and for the third in
+  `results/check-third-skill.txt` and `results/stats-third-skill.txt`.
 
 ### Fixed
 

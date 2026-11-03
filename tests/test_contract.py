@@ -335,6 +335,10 @@ SKILL_FILES = (
         REPO_ROOT / "examples" / "skills" / "http-desync-smuggling-assessment" / "SKILL.md",
         "http-desync-smuggling-assessment",
     ),
+    (
+        REPO_ROOT / "examples" / "skills" / "dns-resolver-security-assessment" / "SKILL.md",
+        "dns-resolver-security-assessment",
+    ),
 )
 
 
@@ -348,9 +352,10 @@ def test_shipped_skill_satisfies_the_contract(path, name):
 
 
 def test_contract_is_not_bespoke_to_one_domain():
-    """Two skills in unrelated domains pass the same rules with no per-domain code."""
-    first, second = (analyse(p.read_text(encoding="utf-8"), p.name) for p, _ in SKILL_FILES)
-    assert first.ok and second.ok
-    assert first.frontmatter["category"] != second.frontmatter["category"]
-    assert first.frontmatter["cwe"] != second.frontmatter["cwe"]
-    assert [s.letter for s in first.sections] == [s.letter for s in second.sections]
+    """Unrelated domains pass the same rules, with no per-domain code."""
+    reports = [analyse(p.read_text(encoding="utf-8"), p.name) for p, _ in SKILL_FILES]
+    assert all(report.ok for report in reports)
+    assert len({report.frontmatter["category"] for report in reports}) == len(reports)
+    assert len({tuple(report.frontmatter["cwe"]) for report in reports}) == len(reports)
+    letters = [[section.letter for section in report.sections] for report in reports]
+    assert all(order == letters[0] for order in letters)

@@ -17,9 +17,10 @@ repository. Nothing here is projected or estimated.
 |---|---|
 | install (runtime dependencies) | N/A — the package has none; tests run from the source tree |
 | build (wheel/sdist) | N/A — pure-Python package, no compile step |
-| unit tests | PASS — 33 collected, 33 passed |
+| unit tests | PASS — 34 collected, 34 passed |
 | integration test (shipped SKILL.md against its own contract) | PASS — 0 errors, 0 warnings |
 | second skill, unrelated domain, same checker | PASS — 0 errors, 0 warnings, no per-domain code |
+| third skill, unrelated domain, same checker | PASS — 0 errors, 0 warnings, no per-domain code |
 | lint | N/A — no linter configured for this repository |
 | type check | N/A — no type checker configured |
 | demo run (`check`, `stats`, `explain`) | PASS |
@@ -84,8 +85,8 @@ sec   words  floor  title
 `pytest`:
 
 ```text
-.................................                                        [100%]
-33 passed
+..................................                                       [100%]
+34 passed
 ```
 
 Secret scan: no matches. The grep is shown above so a reader can re-run exactly
@@ -168,6 +169,62 @@ semantics, because every rule fired identically on a document with different
 frontmatter values. It does not show that the floors are right for every possible
 skill; a section that legitimately needs fewer words would need the floor
 reconsidered rather than the prose padded.
+
+## Third skill (contract, not convention)
+
+`examples/skills/dns-resolver-security-assessment/SKILL.md` — DNS resolver
+security, a third category with no overlap in vocabulary, CWE, tools or
+references with either earlier document. Same binary, same rules:
+
+```shell
+PYTHONPATH=src python -m mailauth_skill.cli check \
+  examples/skills/dns-resolver-security-assessment/SKILL.md
+PYTHONPATH=src python -m mailauth_skill.cli stats \
+  examples/skills/dns-resolver-security-assessment/SKILL.md
+```
+
+Observed, exit code 0:
+
+```text
+skill: examples/skills/dns-resolver-security-assessment/SKILL.md
+  frontmatter   16/16 keys
+  sections      16/16 present
+  word floors   OK
+  references    15 url(s)
+  body words    7096
+  code fences   6 pair(s), 0 untagged
+
+PASS: 0 error(s), 0 warning(s)
+```
+
+Per-section words against floors (smallest margin is section O at 120 against a
+floor of 100, then section L at 160 against 150):
+
+```text
+sec   words  floor  title
+ A      195     20  Skill Metadata
+ B      632    120  Executive Overview
+ C     1149    250  Technical Foundations
+ D      536    150  Prerequisites and Environment
+ E     1146    400  Detailed Operational Methodology
+ F      431    250  Practical Technical Examples
+ G      268    200  Tools and Commands
+ H      556    250  Vulnerability Discovery and Validation
+ I      522    200  Advanced Techniques
+ J      329    250  Automation and AI Agent Integration
+ K      313    200  Security, Authorization and Operational Safety
+ L      160    150  Reporting and Documentation
+ M      325    200  Troubleshooting and Edge Cases
+ N      184    120  Limitations and Known Issues
+ O      120    100  Quality Assurance Checklist
+ P      125     30  References
+```
+
+Patience with floors: two of the three documents were first rejected for a single
+section a few words under its floor (section G at 188 and 190 words against 200).
+Both times the fix was to write the missing substance — version pinning, transcript
+hygiene — not to lower the floor. That is the behaviour the floors are there to
+force, and it is evidence the rule is doing work rather than decorating the file.
 
 ## Generated artifacts
 
