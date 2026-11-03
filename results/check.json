@@ -1,0 +1,146 @@
+{
+  "path": "SKILL.md",
+  "ok": true,
+  "errors": 0,
+  "warnings": 0,
+  "frontmatter_keys": 16,
+  "sections": [
+    {
+      "letter": "A",
+      "title": "Skill Metadata",
+      "words": 174,
+      "floor": 20,
+      "ok": true
+    },
+    {
+      "letter": "B",
+      "title": "Executive Overview",
+      "words": 310,
+      "floor": 120,
+      "ok": true
+    },
+    {
+      "letter": "C",
+      "title": "Technical Foundations",
+      "words": 1088,
+      "floor": 250,
+      "ok": true
+    },
+    {
+      "letter": "D",
+      "title": "Prerequisites and Environment",
+      "words": 298,
+      "floor": 150,
+      "ok": true
+    },
+    {
+      "letter": "E",
+      "title": "Detailed Operational Methodology",
+      "words": 1977,
+      "floor": 400,
+      "ok": true
+    },
+    {
+      "letter": "F",
+      "title": "Practical Technical Examples",
+      "words": 812,
+      "floor": 250,
+      "ok": true
+    },
+    {
+      "letter": "G",
+      "title": "Tools and Commands",
+      "words": 881,
+      "floor": 200,
+      "ok": true
+    },
+    {
+      "letter": "H",
+      "title": "Vulnerability Discovery and Validation",
+      "words": 642,
+      "floor": 250,
+      "ok": true
+    },
+    {
+      "letter": "I",
+      "title": "Advanced Techniques",
+      "words": 460,
+      "floor": 200,
+      "ok": true
+    },
+    {
+      "letter": "J",
+      "title": "Automation and AI Agent Integration",
+      "words": 587,
+      "floor": 250,
+      "ok": true
+    },
+    {
+      "letter": "K",
+      "title": "Security, Authorization and Operational Safety",
+      "words": 596,
+      "floor": 200,
+      "ok": true
+    },
+    {
+      "letter": "L",
+      "title": "Reporting and Documentation",
+      "words": 305,
+      "floor": 150,
+      "ok": true
+    },
+    {
+      "letter": "M",
+      "title": "Troubleshooting and Edge Cases",
+      "words": 518,
+      "floor": 200,
+      "ok": true
+    },
+    {
+      "letter": "N",
+      "title": "Limitations and Known Issues",
+      "words": 209,
+      "floor": 120,
+      "ok": true
+    },
+    {
+      "letter": "O",
+      "title": "Quality Assurance Checklist",
+      "words": 146,
+      "floor": 100,
+      "ok": true
+    },
+    {
+      "letter": "P",
+      "title": "References",
+      "words": 139,
+      "floor": 30,
+      "ok": true
+    }
+  ],
+  "total_words": 9251,
+  "code_fences": 35,
+  "untagged_fences": 0,
+  "references": [
+    "https://www.rfc-editor.org/rfc/rfc7208.html",
+    "https://www.rfc-editor.org/rfc/rfc6376.html",
+    "https://www.rfc-editor.org/rfc/rfc8301.html",
+    "https://www.rfc-editor.org/rfc/rfc7489.html",
+    "https://www.rfc-editor.org/rfc/rfc8617.html",
+    "https://www.rfc-editor.org/rfc/rfc8601.html",
+    "https://www.rfc-editor.org/rfc/rfc5321.html",
+    "https://www.rfc-editor.org/rfc/rfc8461.html",
+    "https://www.rfc-editor.org/rfc/rfc8460.html",
+    "https://cwe.mitre.org/data/definitions/290.html",
+    "https://attack.mitre.org/techniques/T1566/",
+    "https://attack.mitre.org/techniques/T1656/",
+    "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-177r1.pdf",
+    "http://www.opendkim.org/",
+    "https://launchpad.net/dkimpy",
+    "https://github.com/domainaware/checkdmarc",
+    "https://github.com/domainaware/parsedmarc",
+    "https://dmarc.org/",
+    "https://docs.python.org/3/library/ssl.html"
+  ],
+  "findings": []
+}

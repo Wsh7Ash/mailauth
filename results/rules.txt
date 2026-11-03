@@ -1,0 +1,19 @@
+rule   meaning
+FM001  frontmatter fence missing or malformed
+FM002  required frontmatter key missing
+FM003  required frontmatter key present but empty
+FM004  name is not lowercase kebab-case
+FM005  version is not semver (MAJOR.MINOR.PATCH)
+FM006  id does not equal 'name@version'
+FM008  document has no H1 title
+FM009  H1 does not contain the skill name (warning)
+SEC001 required A..P section missing
+SEC002 sections out of order or duplicated
+SEC003 section below its word floor
+SEC004 section title differs from the required title
+TXT001 placeholder marker (TODO/TBD/FIXME/...) in the body
+TXT002 unclosed code fence
+TXT003 code fence without a language tag (warning)
+REF001 fewer than five reference URLs in section P
+REF002 reference host is not an authoritative primary source (warning)
+SAF001 section K lacks authorization/scope/stop vocabulary

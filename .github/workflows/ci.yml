@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Check the shipped skill
+        run: mailauth check SKILL.md
+      - name: Fail on any warning as well as any error
+        run: |
+          mailauth check SKILL.md --json > report.json
+          python -c "import json,sys; r=json.load(open('report.json')); sys.exit(0 if r['ok'] and r['warnings']==0 else 1)"
+      - name: Section statistics
+        run: mailauth stats SKILL.md
+      - name: Test
+        run: python -m pytest -q

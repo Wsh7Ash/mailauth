@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Synthetic DMARC aggregate report (RFC 7489 Appendix C shape), hand-written for
+  this repository. Addresses are documentation ranges and the domain is reserved.
+  Record 1: legitimate ESP flow. SPF passed for the provider envelope domain but
+  is not aligned, so the aligned SPF result is fail; DKIM passed and is aligned,
+  which is what carries DMARC.
+  Record 2: an unknown source that failed both mechanisms while p=none, which is
+  the shape that proves the policy let unauthenticated mail through.
+-->
+<feedback>
+  <version>1.0</version>
+  <report_metadata>
+    <org_name>receiver.example</org_name>
+    <email>dmarc-reports@receiver.example</email>
+    <report_id>example-2026-11-02</report_id>
+    <date_range>
+      <begin>1762041600</begin>
+      <end>1762127999</end>
+    </date_range>
+  </report_metadata>
+  <policy_published>
+    <domain>example.com</domain>
+    <adkim>r</adkim>
+    <aspf>r</aspf>
+    <p>none</p>
+    <sp>none</sp>
+    <pct>100</pct>
+  </policy_published>
+  <record>
+    <row>
+      <source_ip>192.0.2.10</source_ip>
+      <count>412</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>pass</dkim>
+        <spf>fail</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>example.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>example.com</domain>
+        <selector>mail</selector>
+        <result>pass</result>
+      </dkim>
+      <spf>
+        <domain>em1234.provider.example</domain>
+        <result>pass</result>
+      </spf>
+    </auth_results>
+  </record>
+  <record>
+    <row>
+      <source_ip>198.51.100.77</source_ip>
+      <count>96</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>fail</dkim>
+        <spf>fail</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>example.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>example.com</domain>
+        <selector>old</selector>
+        <result>fail</result>
+      </dkim>
+      <spf>
+        <domain>unknown.example</domain>
+        <result>fail</result>
+      </spf>
+    </auth_results>
+  </record>
+</feedback>

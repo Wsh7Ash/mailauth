@@ -1,0 +1,26 @@
+; Synthetic zone for example.com (RFC 2606 reserved name).
+; Used to reason about record shapes without querying anyone's infrastructure.
+; The SPF record is split across two character-strings exactly as a DNS provider
+; might store it, which is why the checker and the skill both insist on reading
+; the raw presentation format rather than a joined one-line view.
+
+$ORIGIN example.com.
+$TTL 300
+
+@       IN  TXT  "v=spf1 ip4:192.0.2.10 ip4:192.0.2.11 "
+@       IN  TXT  "include:_spf.provider.example ~all"
+@       IN  MX   10 mx1.example.com.
+@       IN  MX   20 mx2.example.com.
+
+_dmarc  IN  TXT  "v=DMARC1; p=none; sp=none; pct=100; adkim=r; aspf=r; rua=mailto:dmarc@example.com"
+
+mail._domainkey      IN  TXT  "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000wIDAQAB"
+old._domainkey       IN  TXT  "v=DKIM1; k=rsa; p="
+2023._domainkey      IN  CNAME  selector1.provider.example.
+
+; Subdomain used by a marketing ESP. No SPF record of its own; DMARC is inherited
+; from the organizational domain, where sp=none applies.
+news    IN  TXT  "v=spf1 include:_spf.provider.example -all"
+
+; Staging label that still points a selector at a provider the owner no longer uses.
+staging._domainkey   IN  CNAME  old-tenant.mailgun.org.
