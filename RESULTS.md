@@ -17,8 +17,9 @@ repository. Nothing here is projected or estimated.
 |---|---|
 | install (runtime dependencies) | N/A — the package has none; tests run from the source tree |
 | build (wheel/sdist) | N/A — pure-Python package, no compile step |
-| unit tests | PASS — 31 collected, 31 passed |
+| unit tests | PASS — 33 collected, 33 passed |
 | integration test (shipped SKILL.md against its own contract) | PASS — 0 errors, 0 warnings |
+| second skill, unrelated domain, same checker | PASS — 0 errors, 0 warnings, no per-domain code |
 | lint | N/A — no linter configured for this repository |
 | type check | N/A — no type checker configured |
 | demo run (`check`, `stats`, `explain`) | PASS |
@@ -52,7 +53,7 @@ skill: SKILL.md
   word floors   OK
   references    19 url(s)
   body words    9251
-  code fences   17 pair(s), 0 untagged
+  code fences   35 pair(s), 0 untagged
 
 PASS: 0 error(s), 0 warning(s)
 ```
@@ -83,8 +84,8 @@ sec   words  floor  title
 `pytest`:
 
 ```text
-...............................                                          [100%]
-tests/test_contract.py: 31
+.................................                                        [100%]
+33 passed
 ```
 
 Secret scan: no matches. The grep is shown above so a reader can re-run exactly
@@ -102,7 +103,71 @@ the pattern that was used rather than trusting the word "clean".
   wrong, not the implementation.
 - The code-fence scanner originally popped only tagged openings, so an untagged
   fence was counted as two unclosed fences. It now toggles state, which is correct
-  for both shapes; `TXT002` and `TXT003` are asserted independently.
+  for both shapes;  `TXT002` and `TXT003` are asserted independently.
+- While adding the second skill, the console line for code fences was found to
+  report half the true count: `render_text` divided `report.fences` — already a
+  pair count — by two again, so a document with 35 pairs printed `17 pair(s)`.
+  Fixed to print the value `analyse` computes. No test had asserted the rendered
+  number, which is why it survived the first build; the regenerated
+  `results/check.txt` now shows the correct figure.
+
+## Second skill (reusability check)
+
+Added after the first build, with one purpose: show that the checker enforces a
+contract rather than one document's shape. The document is
+`examples/skills/http-desync-smuggling-assessment/SKILL.md` — HTTP request
+smuggling, which shares no vocabulary, no CWE, no tools and no references with the
+email-authentication skill.
+
+```shell
+PYTHONPATH=src python -m mailauth_skill.cli check \
+  examples/skills/http-desync-smuggling-assessment/SKILL.md
+PYTHONPATH=src python -m mailauth_skill.cli stats \
+  examples/skills/http-desync-smuggling-assessment/SKILL.md
+```
+
+Observed, exit code 0:
+
+```text
+skill: examples/skills/http-desync-smuggling-assessment/SKILL.md
+  frontmatter   16/16 keys
+  sections      16/16 present
+  word floors   OK
+  references    13 url(s)
+  body words    7124
+  code fences   9 pair(s), 0 untagged
+
+PASS: 0 error(s), 0 warning(s)
+```
+
+Per-section words against floors (smallest margin is section O at 114 words
+against a floor of 100):
+
+```text
+sec   words  floor  title
+ A      133     20  Skill Metadata
+ B      432    120  Executive Overview
+ C     1202    250  Technical Foundations
+ D      550    150  Prerequisites and Environment
+ E     1294    400  Detailed Operational Methodology
+ F      506    250  Practical Technical Examples
+ G      254    200  Tools and Commands
+ H      589    250  Vulnerability Discovery and Validation
+ I      446    200  Advanced Techniques
+ J      368    250  Automation and AI Agent Integration
+ K      313    200  Security, Authorization and Operational Safety
+ L      187    150  Reporting and Documentation
+ M      357    200  Troubleshooting and Edge Cases
+ N      180    120  Limitations and Known Issues
+ O      114    100  Quality Assurance Checklist
+ P       94     30  References
+```
+
+What this does and does not show: it shows that no rule is keyed to email
+semantics, because every rule fired identically on a document with different
+frontmatter values. It does not show that the floors are right for every possible
+skill; a section that legitimately needs fewer words would need the floor
+reconsidered rather than the prose padded.
 
 ## Generated artifacts
 

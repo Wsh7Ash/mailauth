@@ -1,0 +1,19 @@
+sec   words  floor  title
+ A      133     20  Skill Metadata
+ B      432    120  Executive Overview
+ C     1202    250  Technical Foundations
+ D      550    150  Prerequisites and Environment
+ E     1294    400  Detailed Operational Methodology
+ F      506    250  Practical Technical Examples
+ G      254    200  Tools and Commands
+ H      589    250  Vulnerability Discovery and Validation
+ I      446    200  Advanced Techniques
+ J      368    250  Automation and AI Agent Integration
+ K      313    200  Security, Authorization and Operational Safety
+ L      187    150  Reporting and Documentation
+ M      357    200  Troubleshooting and Edge Cases
+ N      180    120  Limitations and Known Issues
+ O      114    100  Quality Assurance Checklist
+ P       94     30  References
+
+total body words: 7124

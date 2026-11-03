@@ -1,0 +1,9 @@
+skill: examples/skills/http-desync-smuggling-assessment/SKILL.md
+  frontmatter   16/16 keys
+  sections      16/16 present
+  word floors   OK
+  references    13 url(s)
+  body words    7124
+  code fences   9 pair(s), 0 untagged
+
+PASS: 0 error(s), 0 warning(s)

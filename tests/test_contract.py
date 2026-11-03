@@ -329,8 +329,28 @@ def test_cli_json_is_parseable(tmp_path, capsys):
 # --------------------------------------------------------------------------- #
 
 
-def test_shipped_skill_satisfies_the_contract():
-    report = analyse((REPO_ROOT / "SKILL.md").read_text(encoding="utf-8"), "SKILL.md")
+SKILL_FILES = (
+    (REPO_ROOT / "SKILL.md", "email-authentication-assessment"),
+    (
+        REPO_ROOT / "examples" / "skills" / "http-desync-smuggling-assessment" / "SKILL.md",
+        "http-desync-smuggling-assessment",
+    ),
+)
+
+
+@pytest.mark.parametrize("path,name", SKILL_FILES, ids=[name for _, name in SKILL_FILES])
+def test_shipped_skill_satisfies_the_contract(path, name):
+    report = analyse(path.read_text(encoding="utf-8"), path.name)
     assert report.ok, [f"{f.rule}: {f.message}" for f in report.errors]
     assert not report.warnings, [f"{f.rule}: {f.message}" for f in report.warnings]
+    assert report.frontmatter["name"] == name
     assert report.total_words > 3000
+
+
+def test_contract_is_not_bespoke_to_one_domain():
+    """Two skills in unrelated domains pass the same rules with no per-domain code."""
+    first, second = (analyse(p.read_text(encoding="utf-8"), p.name) for p, _ in SKILL_FILES)
+    assert first.ok and second.ok
+    assert first.frontmatter["category"] != second.frontmatter["category"]
+    assert first.frontmatter["cwe"] != second.frontmatter["cwe"]
+    assert [s.letter for s in first.sections] == [s.letter for s in second.sections]

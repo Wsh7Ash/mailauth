@@ -446,7 +446,7 @@ def render_text(report: Report) -> str:
     lines.append(f"  word floors   {'OK' if not floor_failures else f'{len(floor_failures)} below floor'}")
     lines.append(f"  references    {len(report.references)} url(s)")
     lines.append(f"  body words    {report.total_words}")
-    lines.append(f"  code fences   {report.fences // 2} pair(s), {report.untagged_fences} untagged")
+    lines.append(f"  code fences   {report.fences} pair(s), {report.untagged_fences} untagged")
     if report.findings:
         lines.append("")
         lines.append("findings")

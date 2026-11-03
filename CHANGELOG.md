@@ -4,6 +4,23 @@ All notable changes to this repository are recorded here. The skill document and
 the checker share a version number because the contract they implement is one
 artifact.
 
+## [Unreleased]
+
+### Added
+
+- `examples/skills/http-desync-smuggling-assessment/SKILL.md`: a second skill in an
+  unrelated domain, written to the same A..P contract, to show that the checker
+  enforces a contract rather than one document's shape.
+- A parametrised integration test covering both shipped skills, and a test asserting
+  the contract is not bespoke to one domain.
+- Captured output for the second skill in `results/check-second-skill.txt` and
+  `results/stats-second-skill.txt`.
+
+### Fixed
+
+- The console summary reported half the true number of code fence pairs, because
+  `render_text` divided an already-halved count by two again.
+
 ## [1.0.0] - 2026-11-03
 
 ### Added

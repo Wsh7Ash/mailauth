@@ -4,6 +4,6 @@ skill: SKILL.md
   word floors   OK
   references    19 url(s)
   body words    9251
-  code fences   17 pair(s), 0 untagged
+  code fences   35 pair(s), 0 untagged
 
 PASS: 0 error(s), 0 warning(s)

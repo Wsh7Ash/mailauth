@@ -52,7 +52,7 @@ skill: SKILL.md
   word floors   OK
   references    19 url(s)
   body words    9251
-  code fences   17 pair(s), 0 untagged
+  code fences   35 pair(s), 0 untagged
 
 PASS: 0 error(s), 0 warning(s)
 ```
@@ -79,6 +79,30 @@ sec   words  floor  title
  P      139     30  References
 ```
 
+## Two skills, one contract
+
+`SKILL.md` is not special-cased. A second skill in an unrelated domain lives at
+`examples/skills/http-desync-smuggling-assessment/` and is checked by the same
+binary, with no per-domain code and no rules relaxed for it:
+
+```text
+skill: examples/skills/http-desync-smuggling-assessment/SKILL.md
+  frontmatter   16/16 keys
+  sections      16/16 present
+  word floors   OK
+  references    13 url(s)
+  body words    7124
+  code fences   9 pair(s), 0 untagged
+
+PASS: 0 error(s), 0 warning(s)
+```
+
+The only thing the two documents share is the contract. They differ in category,
+CWE mapping, tool set, references and subject matter — one cites RFC 7208 and
+DMARC, the other RFC 9112 and CWE-444. `tests/test_contract.py` asserts both pass
+and that their categories and CWE lists differ, which is what makes this a
+contract rather than a linter tuned to one file.
+
 ## Quick start
 
 ```shell
@@ -89,7 +113,7 @@ python -m pip install -e ".[dev]"
 mailauth check SKILL.md     # exit 0, zero findings
 mailauth stats SKILL.md     # per-section word counts
 mailauth explain            # rule catalogue
-python -m pytest -q         # 31 tests
+python -m pytest -q         # 33 tests
 ```
 
 Then read `SKILL.md` itself: section D for the environment, section E for the
@@ -144,10 +168,12 @@ deterministically. Details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 python -m pytest -q
 ```
 
-31 tests: one per rule, each mutating exactly one aspect of a synthetically valid
-document, plus an integration test that runs the checker against the shipped
-`SKILL.md` and asserts zero findings of either level. That integration test is the
-proof that the deliverable satisfies its own contract.
+33 tests: one per rule, each mutating exactly one aspect of a synthetically valid
+document, plus a parametrised integration test that runs the checker against both
+shipped skills and asserts zero findings of either level, and one test asserting
+the contract is not bespoke — two skills in unrelated domains pass the same rules.
+Those integration tests are the proof that the deliverables satisfy their own
+contract.
 
 ## Project structure
 
@@ -157,8 +183,9 @@ mailauth/
 ├─ src/mailauth_skill/
 │  ├─ contract.py           parsing, rules, rendering
 │  └─ cli.py                check / stats / explain
-├─ tests/test_contract.py   31 tests
+├─ tests/test_contract.py   33 tests
 ├─ examples/                synthetic zone and aggregate report
+│  └─ skills/               second skill, unrelated domain (reusability proof)
 ├─ docs/                    ARCHITECTURE, USAGE, PROJECT_SPEC
 ├─ results/                 captured checker output
 ├─ RESULTS.md               what was actually executed
@@ -189,8 +216,6 @@ Only what is genuinely next:
 
 - A `--strict` mode that fails on warnings, replacing the two-line Python check in
   CI today.
-- A second example skill written to the same contract, to prove the checker is
-  reusable rather than bespoke.
 - Optional parsing of a stored aggregate report to demonstrate section E phase 7
   against the fixture in `examples/`.
 
